@@ -22,6 +22,7 @@ import (
 	"github.com/cnabio/image-relocation/pkg/registry"
 	"github.com/cnabio/image-relocation/pkg/registry/ggcr"
 	"github.com/opencontainers/go-digest"
+	"oras.land/oras/cmd/oras/root"
 )
 
 // PublishOptions are options that may be specified when publishing a bundle.
@@ -233,7 +234,16 @@ func (p *Porter) publishFromFile(ctx context.Context, opts PublishOptions) error
 }
 
 func pushSBOM(p *Porter, ref cnab.OCIReference) error {
-	// TODO use oras lib to push json to
+	filename := "sbom.json"
+	fmt.Fprintf(p.Out, "Attaching SBOM for %s\n", ref.String())
+	args := []string{"attach", "--artifact-type=spdx-json", ref.String(), filename}
+	cmd := root.New()
+	cmd.SetArgs(args)
+	fmt.Printf("Executing 'oras %s':", strings.Join(args, " "))
+	err := cmd.Execute()
+	if err != nil {
+		return fmt.Errorf("Failed to execute : %w", err)
+	}
 	return nil
 }
 

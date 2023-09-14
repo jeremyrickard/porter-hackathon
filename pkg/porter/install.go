@@ -93,6 +93,7 @@ func (p *Porter) InstallBundle(ctx context.Context, opts InstallOptions) error {
 		if err != nil {
 			return err
 		}
+		log.Infof("verifying signature for %s", ref.String())
 		if !ok {
 			return fmt.Errorf("unable to get reference for bundle")
 		}

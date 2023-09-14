@@ -13,6 +13,8 @@ import (
 	secretsplugins "get.porter.sh/porter/pkg/secrets/plugins"
 	"get.porter.sh/porter/pkg/secrets/plugins/filesystem"
 	"get.porter.sh/porter/pkg/secrets/plugins/host"
+	signingplugins "get.porter.sh/porter/pkg/signing/plugins"
+	"get.porter.sh/porter/pkg/signing/plugins/mock"
 	storageplugins "get.porter.sh/porter/pkg/storage/plugins"
 	"get.porter.sh/porter/pkg/storage/plugins/mongodb"
 	"get.porter.sh/porter/pkg/storage/plugins/mongodb_docker"
@@ -141,6 +143,13 @@ func getInternalPlugins() map[string]InternalPlugin {
 			ProtocolVersion: storageplugins.PluginProtocolVersion,
 			Create: func(c *config.Config, pluginCfg interface{}) (plugin.Plugin, error) {
 				return mongodb_docker.NewPlugin(c.Context, pluginCfg)
+			},
+		},
+		mock.PluginKey: {
+			Interface:       signingplugins.PluginInterface,
+			ProtocolVersion: signingplugins.PluginProtocolVersion,
+			Create: func(c *config.Config, pluginCfg interface{}) (plugin.Plugin, error) {
+				return mock.NewPlugin(c.Context, pluginCfg)
 			},
 		},
 	}

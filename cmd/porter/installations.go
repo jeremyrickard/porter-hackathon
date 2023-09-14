@@ -254,12 +254,15 @@ The docker driver runs the bundle container using the local Docker host. To use 
 		"Create the installation in the specified namespace. Defaults to the global namespace.")
 	f.StringSliceVarP(&opts.Labels, "label", "l", nil,
 		"Associate the specified labels with the installation. May be specified multiple times.")
+
+	f.BoolVar(&opts.VerifyBundleBeforeExecution, "verify-bundle", false, "Verify the bundle signature before executing")
 	addBundleActionFlags(f, opts)
 
 	// Allow configuring the --driver flag with runtime-driver, to avoid conflicts with other commands
 	cmd.Flag("driver").Annotations = map[string][]string{
 		"viper-key": {"runtime-driver"},
 	}
+
 	return cmd
 }
 

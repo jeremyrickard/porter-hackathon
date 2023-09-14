@@ -64,11 +64,20 @@ type Data struct {
 	// DefaultSecrets to use when one is not specified by a flag.
 	DefaultSecrets string `mapstructure:"default-secrets"`
 
+	// DefaultSigningPlugin is the plugin to use when no plugin is specified.
+	DefaultSigningPlugin string `mapstructure:"default-signing-plugin"`
+
+	// DefaultSigning to use when one is not specified by a flag.
+	DefaultSigning string `mapstructure:"default-signer"`
+
 	// Namespace is the default namespace for commands that do not override it with a flag.
 	Namespace string `mapstructure:"namespace"`
 
 	// SecretsPlugin defined in the configuration file.
 	SecretsPlugin []SecretsPlugin `mapstructure:"secrets"`
+
+	// SigningPlugin defined in the configuration file.
+	SigningPlugin []SigningPlugin `mapstructure:"secrets"`
 
 	// Logs are settings related to Porter's log files.
 	Logs LogConfig `mapstructure:"logs"`
@@ -94,6 +103,7 @@ func DefaultDataStore() Data {
 		RuntimeDriver:        RuntimeDriverDocker,
 		DefaultStoragePlugin: "mongodb-docker",
 		DefaultSecretsPlugin: "host",
+		DefaultSigningPlugin: "mock",
 		Logs:                 LogConfig{Level: "info"},
 		Verbosity:            DefaultVerbosity,
 	}
@@ -101,6 +111,11 @@ func DefaultDataStore() Data {
 
 // SecretsPlugin is the plugin stanza for secrets.
 type SecretsPlugin struct {
+	PluginConfig `mapstructure:",squash"`
+}
+
+// SigningPlugin is the plugin stanza for signing.
+type SigningPlugin struct {
 	PluginConfig `mapstructure:",squash"`
 }
 

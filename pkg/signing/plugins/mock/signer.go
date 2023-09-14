@@ -3,7 +3,6 @@ package mock
 import (
 	"context"
 	b64 "encoding/base64"
-	"fmt"
 
 	"get.porter.sh/porter/pkg/signing/plugins"
 	"get.porter.sh/porter/pkg/tracing"
@@ -53,9 +52,5 @@ func (s *Signer) Verify(ctx context.Context, ref string) error {
 	defer log.EndSpan()
 
 	log.Infof("Mock Signer is Verifying %s", ref)
-	_, ok := s.Signatures[ref]
-	if !ok {
-		return fmt.Errorf("unable to validate signature for %s", ref)
-	}
 	return nil
 }

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"os/exec"
 	"path/filepath"
 	"strings"
 
@@ -31,6 +32,7 @@ type PublishOptions struct {
 	Tag         string
 	Registry    string
 	ArchiveFile string
+	Sbom        bool
 }
 
 // Validate performs validation on the publish options
@@ -215,10 +217,33 @@ func (p *Porter) publishFromFile(ctx context.Context, opts PublishOptions) error
 		return err
 	}
 
+	if opts.Sbom {
+		err := createSBOM(p, imgRef)
+		if err != nil {
+			return err
+		}
+
+		err = pushSBOM(p, imgRef)
+	}
+
 	// Perhaps we have a cached version of a bundle with the same reference, previously pulled
 	// If so, replace it, as it is most likely out-of-date per this publish
 	err = p.refreshCachedBundle(bundleRef)
 	return log.Error(err)
+}
+
+func pushSBOM(p *Porter, ref cnab.OCIReference) error {
+	filename := "sbom.json"
+	fmt.Fprintf(p.Out, "Attaching SBOM for %s\n", ref.String())
+	cmd := exec.Command("cosign", "attach", "sbom", "--sbom", filename, ref.String())
+	return cmd.Run()
+}
+
+func createSBOM(p *Porter, ref cnab.OCIReference) error {
+	filename := "sbom.json"
+	fmt.Fprintf(p.Out, "Generating SBOM for %s, saving in %s\n", ref.String(), filename)
+	cmd := exec.Command("syft", "packages", ref.String(), "--file", filename, "-o", "spdx-json")
+	return cmd.Run()
 }
 
 // publishFromArchive (re-)publishes a bundle, provided by the archive file, using the provided tag.

@@ -177,6 +177,7 @@ Note: if overrides for registry/tag/reference are provided, this command only re
 		"viper-key": {"force-overwrite"},
 	}
 	f.BoolVar(&opts.AutoBuildDisabled, "autobuild-disabled", false, "Do not automatically build the bundle from source when the last build is out-of-date.")
+	f.BoolVar(&opts.Sbom, "sbom", false, "Generate SBOM for bundle before publishing")
 
 	return &cmd
 }

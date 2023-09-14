@@ -77,7 +77,7 @@ type Data struct {
 	SecretsPlugin []SecretsPlugin `mapstructure:"secrets"`
 
 	// SigningPlugin defined in the configuration file.
-	SigningPlugin []SigningPlugin `mapstructure:"secrets"`
+	SigningPlugin []SigningPlugin `mapstructure:"signers"`
 
 	// Logs are settings related to Porter's log files.
 	Logs LogConfig `mapstructure:"logs"`

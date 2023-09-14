@@ -233,8 +233,10 @@ func (p *Porter) publishFromFile(ctx context.Context, opts PublishOptions) error
 }
 
 func pushSBOM(p *Porter, ref cnab.OCIReference) error {
-	// TODO use oras lib to push json to
-	return nil
+	filename := "sbom.json"
+	fmt.Fprintf(p.Out, "Attaching SBOM for %s\n", ref.String())
+	cmd := exec.Command("cosign", "attach", "sbom", "--sbom", filename, ref.String())
+	return cmd.Run()
 }
 
 func createSBOM(p *Porter, ref cnab.OCIReference) error {

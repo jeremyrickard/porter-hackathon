@@ -1,8 +1,6 @@
 module get.porter.sh/porter
 
-go 1.21
-
-toolchain go1.21.1
+go 1.20
 
 replace (
 	// See https://github.com/hashicorp/go-plugin/pull/127 and
@@ -80,11 +78,6 @@ require (
 	gopkg.in/op/go-logging.v1 v1.0.0-20160211212156-b2cb9fa56473
 	gopkg.in/yaml.v3 v3.0.1
 	k8s.io/utils v0.0.0-20230505201702-9f6742963106
-)
-
-require (
-	github.com/oras-project/oras-credentials-go v0.2.0 // indirect
-	oras.land/oras-go/v2 v2.3.0 // indirect
 )
 
 require (
@@ -239,8 +232,8 @@ require (
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/net v0.12.0 // indirect
 	golang.org/x/oauth2 v0.10.0 // indirect
-	golang.org/x/sys v0.11.0 // indirect
-	golang.org/x/term v0.11.0 // indirect
+	golang.org/x/sys v0.10.0 // indirect
+	golang.org/x/term v0.10.0 // indirect
 	golang.org/x/text v0.11.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.11.1 // indirect
@@ -257,7 +250,6 @@ require (
 	k8s.io/client-go v0.28.0-alpha.3 // indirect
 	k8s.io/klog/v2 v2.100.1 // indirect
 	k8s.io/kube-openapi v0.0.0-20230614213217-ba0abe644833 // indirect
-	oras.land/oras v1.1.0
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.2.3 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect

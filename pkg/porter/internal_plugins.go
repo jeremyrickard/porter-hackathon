@@ -14,6 +14,7 @@ import (
 	"get.porter.sh/porter/pkg/secrets/plugins/filesystem"
 	"get.porter.sh/porter/pkg/secrets/plugins/host"
 	signingplugins "get.porter.sh/porter/pkg/signing/plugins"
+	"get.porter.sh/porter/pkg/signing/plugins/cosign"
 	"get.porter.sh/porter/pkg/signing/plugins/mock"
 	"get.porter.sh/porter/pkg/signing/plugins/notation"
 	storageplugins "get.porter.sh/porter/pkg/storage/plugins"
@@ -158,6 +159,13 @@ func getInternalPlugins() map[string]InternalPlugin {
 			ProtocolVersion: signingplugins.PluginProtocolVersion,
 			Create: func(c *config.Config, pluginCfg interface{}) (plugin.Plugin, error) {
 				return notation.NewPlugin(c.Context, pluginCfg)
+			},
+		},
+		cosign.PluginKey: {
+			Interface:       signingplugins.PluginInterface,
+			ProtocolVersion: signingplugins.PluginProtocolVersion,
+			Create: func(c *config.Config, pluginCfg interface{}) (plugin.Plugin, error) {
+				return cosign.NewPlugin(c.Context, pluginCfg)
 			},
 		},
 	}

@@ -48,7 +48,7 @@ func (s *Cosign) Sign(ctx context.Context, ref string) error {
 	ctx, log := tracing.StartSpan(ctx)
 	defer log.EndSpan()
 	log.Infof("Cosign Signer is Signing %s", ref)
-	cmd := exec.Command("cosign", "sign --tlog-upload=false --key", s.PrivateKey, ref)
+	cmd := exec.Command("cosign", "sign", "--tlog-upload=false", "--key", s.PrivateKey, ref)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("%s: %w", string(out), err)
@@ -62,7 +62,7 @@ func (s *Cosign) Verify(ctx context.Context, ref string) error {
 	defer log.EndSpan()
 
 	log.Infof("Mock Signer is Verifying %s", ref)
-	cmd := exec.Command("cosign", "verify --key", s.PublicKey, ref)
+	cmd := exec.Command("cosign", "verify", "--key", s.PublicKey, ref)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("%s: %w", string(out), err)
